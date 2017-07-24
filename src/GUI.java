@@ -13,7 +13,8 @@ public class GUI extends JPanel implements MouseListener, MouseMotionListener
     {
         IDLE,
         PLACING_PARTICLE,
-        SETTING_VELOCITY
+        SETTING_VELOCITY,
+        WAITING_TO_ADD
     }
     private MouseState state;
     private Particle currentParticle;
@@ -21,6 +22,7 @@ public class GUI extends JPanel implements MouseListener, MouseMotionListener
     public GUI(World world)
     {
         super();
+        this.setBackground(Color.BLACK);
         this.world = world;
 
         this.frame = new JFrame();
@@ -33,22 +35,27 @@ public class GUI extends JPanel implements MouseListener, MouseMotionListener
         this.frame.add(this);
         this.frame.setVisible(true);
 
+
         this.state = MouseState.IDLE;
     }
 
+    private boolean add = true;
+
     public void update()
     {
+        if (this.state == MouseState.WAITING_TO_ADD)
+        {
+            this.world.addParticle(this.currentParticle);
+            this.currentParticle = null;
+            this.state = MouseState.IDLE;
+        }
         this.frame.repaint();
-    }
-
-    public MouseState getState()
-    {
-        return state;
     }
 
     @Override
     public void paintComponent(Graphics graphics)
     {
+        super.paintComponent(graphics);
         this.world.draw(graphics);
         if (this.state != MouseState.IDLE)
         {
@@ -58,6 +65,7 @@ public class GUI extends JPanel implements MouseListener, MouseMotionListener
                 this.currentParticle.getVelocity().drawFrom(graphics, this.currentParticle.getPosition());
             }
         }
+
     }
 
     public void setCurrentParticle(MouseEvent e)
@@ -65,7 +73,8 @@ public class GUI extends JPanel implements MouseListener, MouseMotionListener
         Position currentMousePosition = new Position(e.getX(), e.getY());
         if (this.state == MouseState.PLACING_PARTICLE)
         {
-            this.currentParticle = new Particle(currentMousePosition);
+            if (this.currentParticle == null) this.currentParticle = new Particle(currentMousePosition);
+            else this.currentParticle.setPosition(currentMousePosition);
         }
         if (this.state == MouseState.SETTING_VELOCITY)
         {
@@ -87,8 +96,9 @@ public class GUI extends JPanel implements MouseListener, MouseMotionListener
                 setCurrentParticle(e);
                 break;
             case SETTING_VELOCITY:
-                this.state = MouseState.IDLE;
-                this.world.addParticle(this.currentParticle);
+                this.state = MouseState.WAITING_TO_ADD;
+                break;
+            case WAITING_TO_ADD:
                 break;
         }
     }

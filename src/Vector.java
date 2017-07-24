@@ -50,6 +50,8 @@ public class Vector
 
     public void drawFrom(Graphics graphics, Position position)
     {
+        graphics.setColor(Color.WHITE);
         graphics.drawLine((int) position.getxPos(), (int) position.getyPos(), (int) (position.getxPos() + this.x), (int) (position.getyPos() + this.y));
+        graphics.setColor(Color.BLACK);
     }
 }

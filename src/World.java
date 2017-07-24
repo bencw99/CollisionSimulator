@@ -38,6 +38,10 @@ public class World
 
     public void generateRandomWalls()
     {
+        // Position start = new Position(250, 100);
+        // Position end = new Position(250, 400);
+        // Wall wall = new Wall(start, end);
+        // this.walls.add(wall);
         for (int i = 0; i < Constants.NUM_RANDOM_WALLS; i ++)
         {
             // TODO: Implement this function

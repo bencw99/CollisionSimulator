@@ -7,7 +7,7 @@ public class Constants
     public static final int WORLD_HEIGHT_PIXELS = 500;
     public static final int GUI_HEIGHT_BUFFER = 20;
 
-    public static final int NUM_RANDOM_PARTICLES = 0;
+    public static final int NUM_RANDOM_PARTICLES = 20;
     public static final int NUM_RANDOM_WALLS = 0;
 
     public static final double BASE_SPRING_CONSTANT = 200000;

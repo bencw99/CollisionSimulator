@@ -9,9 +9,11 @@ public class Particle
     private Position position;
     private Vector velocity;
 
+    private Color color;
+
     public Particle(Position position)
     {
-        this(Constants.AVERAGE_PARTICLE_MASS, Constants.AVERAGE_PARTICLE_RADIUS, position, new Vector(0.0, 0.0));
+        this((0.5 + Math.random()) * Constants.AVERAGE_PARTICLE_MASS, (0.5 + Math.random()) * Constants.AVERAGE_PARTICLE_RADIUS, position, new Vector(0.0, 00));
     }
 
     public Particle(double mass, double radius, Position position, Vector velocity)
@@ -20,6 +22,7 @@ public class Particle
         this.radius = radius;
         this.position = position;
         this.velocity = velocity;
+        this.color = new Color((int) (255 * Math.random()), (int) (255 * Math.random()), (int) (255 * Math.random()));
     }
 
     public void collide(Particle other)
@@ -73,6 +76,11 @@ public class Particle
         return this.velocity;
     }
 
+    public void setPosition(Position position)
+    {
+        this.position = position;
+    }
+
     public void setVelocity(Vector velocity)
     {
         this.velocity = velocity;
@@ -82,6 +90,11 @@ public class Particle
     {
         int leftCornerX = (int) (this.position.getxPos() - this.radius);
         int leftCornerY = (int) (this.position.getyPos() - this.radius);
+        graphics.setColor(this.color);
+        graphics.fillOval(leftCornerX, leftCornerY, (int) (this.radius * 2), (int) (this.radius * 2));
+        graphics.setColor(this.color.brighter());
         graphics.drawOval(leftCornerX, leftCornerY, (int) (this.radius * 2), (int) (this.radius * 2));
+        graphics.setColor(Color.BLACK);
+
     }
 }
